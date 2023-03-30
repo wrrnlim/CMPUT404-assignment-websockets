@@ -20,7 +20,7 @@
 </head>
 
 <body bgcolor="white" height="100%" width="100%">
-    <div id="debug"></div>
+    <div id="debug" style="white-space: nowrap; overflow: scroll"></div>
     <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas>
 
     <script>
@@ -49,10 +49,15 @@
                 var x = entity["x"];
                 var y = entity["y"];
                 //moveTo(x,y);
-                fillStyle = entity["colour"];
-                strokeStyle = fillStyle;
-                arc(x, y, (entity["radius"]) ? entity["radius"] : 50, 0, 2.0 * Math.PI, false);
-                stroke();
+                // fillStyle = entity["colour"];
+                // strokeStyle = fillStyle;
+                var radius = (entity["radius"]) ? entity["radius"] : 10;
+                const gradient = createLinearGradient(0, 0, W, H);
+                gradient.addColorStop(0.2, '#efceff');
+                gradient.addColorStop(0.8, '#0037ff');
+                fillStyle = gradient;
+                arc(x, y, (entity["radius"]) ? entity["radius"] : 10, 0, 2.0 * Math.PI, false);
+                fill();
             }
         }
 
@@ -230,16 +235,16 @@
         // Add the application specific mouse listeners!
         //XXX: TODO Make these prettier!
         mouse.mousedowners.push(function (x, y, clicked, e) {
-            addEntityWithoutName({ 'x': x, 'y': y, 'colour': 'blue' });
+            addEntityWithoutName({ 'x': x, 'y': y, 'colour': 'yellow', 'radius': 10 });
         });
 
         mouse.mouseuppers.push(function (x, y, clicked, e) {
-            addEntityWithoutName({ 'x': x, 'y': y, 'colour': 'red' });
+            addEntityWithoutName({ 'x': x, 'y': y, 'colour': 'yellow', 'radius': 10 });
         });
 
         mouse.mousedraggers.push(function (x, y, clicked, e) {
             addEntityWithoutName({
-                'x': x, 'y': y, 'colour': 'green',
+                'x': x, 'y': y, 'colour': 'yellow',
                 'radius': 10
             });
         });

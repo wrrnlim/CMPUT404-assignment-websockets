@@ -91,14 +91,17 @@ def hello():
 
 def read_ws(ws,client):
     '''A greenlet function that reads from the websocket and updates the world'''
-    while True:
-        msg = json.loads(ws.receive())
-        print("WS RECV:", msg)
-        if (msg is not None):
-            for entity in msg:
-                myWorld.set(entity, msg[entity])
-        else:
-            break
+    try:
+        while True:
+            msg = json.loads(ws.receive())
+            print("WS RECV:", msg)
+            if (msg is not None):
+                for entity in msg:
+                    myWorld.set(entity, msg[entity])
+            else:
+                break
+    except Exception as e:# WebSocketError as e:
+        print("WS Error:", e)
     
     return None
 
@@ -110,10 +113,11 @@ def subscribe_socket(ws):
     clients.append(client)
     g = gevent.spawn( read_ws, ws, client )
     print("Client connected!")
+    ws.send(json.dumps(myWorld.world())) # send the initial world to the client
     try:
         while True:
             msg = client.get()
-            print("Sending message:", msg)
+            print("WS SEND:", msg)
             ws.send(msg)
     except Exception as e:# WebSocketError as e:
         print("WS Subscribe Error:", e)
