@@ -48,9 +48,7 @@
                 lineWidth = 3;
                 var x = entity["x"];
                 var y = entity["y"];
-                //moveTo(x,y);
-                // fillStyle = entity["colour"];
-                // strokeStyle = fillStyle;
+                // Adapted from https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createLinearGradient
                 var radius = (entity["radius"]) ? entity["radius"] : 10;
                 const gradient = createLinearGradient(0, 0, W, H);
                 gradient.addColorStop(0.2, '#efceff');
